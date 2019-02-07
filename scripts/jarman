@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+
+jarFile="$1"
+if [ -z "$jarFile" ]; then
+    eval 1>&2
+    echo 'Please specify a JAR file.'
+fi
+
+unzip -qc "$jarFile" META-INF/MANIFEST.MF
+

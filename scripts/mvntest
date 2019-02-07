@@ -1,0 +1,26 @@
+#!/bin/bash
+#
+
+testClass="$1"
+testMethod="$2"
+fullTestName="$testClass"
+
+if [ ! -z "$testMethod" ]; then
+    fullTestName="$testClass"'#'"$testMethod"
+fi
+
+failIfNoTestsOption="-DfailIfNoTests=false"
+testOption="-Dtest=""$fullTestName"
+
+if [ -z "$testClass" ]; then
+    failIfNoTestsOption=''
+    testOption=''
+fi
+
+mvnCommand="mvn clean test $failIfNoTestsOption $testOption"
+
+(
+    set -x
+    eval "$mvnCommand"
+    findtest "$testClass"
+)

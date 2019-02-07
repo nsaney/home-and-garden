@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+
+testClass="$1"
+
+(
+    set -x
+    find . -wholename '*surefire-reports/'"$testClass"'*' | grep -v 'surefire-reports/TEST' | xargs wc -l | awk '$1 > 4 && $2 != "total" { print $2 }' | xargs cat
+    #xargs grep -h -e $'^[^\t]' -e 'gtri'
+)
