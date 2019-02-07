@@ -23,7 +23,12 @@ if [ ! -d "$scriptsDir" ] || [ ! -f "$bashSetupFile" ]; then
   exit
 fi
 
-( set -x && git config --global user.name "$gitName" && git config --global user.email "$gitEmail" )
+(
+set -x \
+&& git config --global user.name "$gitName" \
+&& git config --global user.email "$gitEmail" \
+&& git config --global alias.logg 'log --oneline --graph --all --decorate'
+)
 
 echo -n "Checking for existing scripts dir in '$homeDir' ... "
 if [ -d "$homeDir"/"$scriptsDir" ]; then
