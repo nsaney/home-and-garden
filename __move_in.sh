@@ -2,9 +2,15 @@
 
 (
 homeDir="$1"
+gitName="$2"
+gitEmail="$3"
 if [ ! -d "$homeDir" ]; then
   exec 1>&2
-  echo "usage: $0 <HOME_DIR>"
+  echo "Unknown home directory: '$homeDir'"
+fi
+if [ "$#" -lt "3" ]; then
+  exec 1>&2
+  echo "usage: $0 <HOME_DIR> <GIT_NAME> <GIT_EMAIL>"
   exit
 fi
 
@@ -16,6 +22,8 @@ if [ ! -d "$scriptsDir" ] || [ ! -f "$bashSetupFile" ]; then
   echo 'Either scripts directory or bash setup script is missing.'
   exit
 fi
+
+( set -x && git config --global user.name "$gitName" && git config --global user.email "$gitEmail" )
 
 echo -n "Checking for existing scripts dir in '$homeDir' ... "
 if [ -d "$homeDir"/"$scriptsDir" ]; then
