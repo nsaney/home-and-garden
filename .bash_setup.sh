@@ -1,18 +1,15 @@
 # Herald
 echo "Running `echo $SHELL`"
 
-# Java
-export JAVA_HOME=`which javac | xargs readlink -f | xargs dirname | xargs dirname`
-
 # Prompt
-export COLOR_GRAY=0
-export COLOR_RED=1
-export COLOR_GREEN=2
-export COLOR_YELLOW=3
-export COLOR_BLUE=4
-export COLOR_MAGENTA=5
-export COLOR_CYAN=6
-export COLOR_WHITE=7
+COLOR_GRAY=0
+COLOR_RED=1
+COLOR_GREEN=2
+COLOR_YELLOW=3
+COLOR_BLUE=4
+COLOR_MAGENTA=5
+COLOR_CYAN=6
+COLOR_WHITE=7
 function colorClrEol() {
     echo -e '\e[K'
 }
@@ -40,14 +37,10 @@ function echoExitLine() {
     fi
     echo -e "$(colorBg $exitLineBg)""$(colorFg $exitLineFg)""$exitCode""$(colorClrEol)""$(colorStop)"
 }
-export PS1='\n$(echoExitLine "$?")\n'
-export PS1="$PS1"'['"$(promptColor $COLOR_CYAN '\u')"
-export PS1="$PS1"'@'"$(promptColor $COLOR_MAGENTA '\h')"
-export PS1="$PS1"':'"$(promptColor $COLOR_YELLOW '\w')"']\n'
-export PS1="$PS1"'['"$(promptColor $COLOR_BLUE '\D{%F %T}')"']$ '  
-export PS1="$PS1"`echo -e '\[\e]2;Terminal: \w\a\]'`
-
-# Scripts
-export PATH="$PATH":"$HOME/scripts"
-
+PS1='\n$(echoExitLine "$?")\n'
+PS1="$PS1"'['"$(promptColor $COLOR_CYAN '\u')"
+PS1="$PS1"'@'"$(promptColor $COLOR_MAGENTA '\h')"
+PS1="$PS1"':'"$(promptColor $COLOR_YELLOW '\w')"']\n'
+PS1="$PS1"'['"$(promptColor $COLOR_BLUE '\D{%F %T}')"']$ '  
+PS1="$PS1"`echo -e '\[\e]2;Terminal: \w\a\]'`
 

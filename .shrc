@@ -1,0 +1,16 @@
+# Herald
+echo "Running `echo $SHELL`"
+
+# Java
+export JAVA_HOME=`which javac | xargs readlink -f | xargs dirname | xargs dirname`
+
+# Android
+export ANDROID_HOME='/opt/android-sdk-tools'
+export PATH="$PATH":"$ANDROID_HOME"/tools
+export PATH="$PATH":"$ANDROID_HOME"/platform-tools
+
+# Git
+if [ $(which git) ] ; then
+  git config --global alias.logg 'log --oneline --graph --all --decorate'
+fi
+
