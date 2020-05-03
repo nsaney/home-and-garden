@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# see https://blogs.msdn.microsoft.com/commandline/2018/02/28/per-directory-case-sensitivity-and-wsl/
+if [[ -z $(which fsutil.exe) ]]
+then
+  exec 1>&2
+  echo 'No fsutil available. Quitting.'
+else
+  if [[ "$#" -lt 2 ]]
+  then
+    exec 1>&2
+    echo 'usage: '"$0"' PATH [enable | disable]'
+  else
+    fsutil.exe file setCaseSensitiveInfo "$1" "$2"
+  fi
+fi
+
