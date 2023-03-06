@@ -1,15 +1,18 @@
+# .bash_setup.sh -- gets called from .bashrc, which gets sourced by both login and non-login shells
+
 # Herald
 echo "Running `echo $SHELL`"
+echo "JAVA_HOME=${JAVA_HOME}"
 
 # Prompt
-COLOR_GRAY=0
-COLOR_RED=1
-COLOR_GREEN=2
-COLOR_YELLOW=3
-COLOR_BLUE=4
-COLOR_MAGENTA=5
-COLOR_CYAN=6
-COLOR_WHITE=7
+export COLOR_GRAY=0
+export COLOR_RED=1
+export COLOR_GREEN=2
+export COLOR_YELLOW=3
+export COLOR_BLUE=4
+export COLOR_MAGENTA=5
+export COLOR_CYAN=6
+export COLOR_WHITE=7
 function colorClrEol() {
     echo -e '\e[K'
 }
@@ -37,10 +40,10 @@ function echoExitLine() {
     fi
     echo -e "$(colorBg $exitLineBg)""$(colorFg $exitLineFg)""$exitCode""$(colorClrEol)""$(colorStop)"
 }
-PS1='\n$(echoExitLine "$?")\n'
-PS1="$PS1"'['"$(promptColor $COLOR_CYAN '\u')"
-PS1="$PS1"'@'"$(promptColor $COLOR_MAGENTA '\h')"
-PS1="$PS1"':'"$(promptColor $COLOR_YELLOW '\w')"']\n'
-PS1="$PS1"'['"$(promptColor $COLOR_BLUE '\D{%F %T}')"']$ '  
-PS1="$PS1"`echo -e '\[\e]2;Terminal: \w\a\]'`
+export PS1='\n$(x="$?"; echoExitLine "$x" 2>/dev/null || echo "$x")\n'
+export PS1="$PS1"'['"$(promptColor $COLOR_CYAN '\u')"
+export PS1="$PS1"'@'"$(promptColor $COLOR_MAGENTA '\h')"
+export PS1="$PS1"':'"$(promptColor $COLOR_YELLOW '\w')"']\n'
+export PS1="$PS1"'['"$(promptColor $COLOR_BLUE '\D{%F %T}')"']$ '
+export PS1="$PS1"`echo -e '\[\e]2;Terminal: \w\a\]'`
 

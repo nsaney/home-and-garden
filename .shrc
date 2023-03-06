@@ -1,5 +1,15 @@
+# .shrc -- gets called from .profile, which is sourced by login shells
+
+if [ -z "$GARDEN" ]; then
+    CURRENT_FILE="$0"
+    echo "Garden based on $CURRENT_FILE"
+    export GARDEN="$(dirname ${CURRENT_FILE})"
+fi
+
 # Herald
-echo "Running `echo $SHELL`"
+echo "Setting up `echo $SHELL`"
+export PATH="$PATH":"$GARDEN"/scripts
+export PATH="$PATH":"$GARDEN"/scripts/.local
 
 # Java
 export JAVA_HOME=`which javac | xargs readlink -f | xargs dirname | xargs dirname`
