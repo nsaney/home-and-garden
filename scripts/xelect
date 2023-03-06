@@ -1,0 +1,20 @@
+#!/bin/bash
+#
+
+(
+match="$1"
+shift
+printFileArgs=""
+[[ "$#" -le 1 ]] || printFileArgs="-f -o :"
+xmlstarlet \
+  sel -t \
+      -m "//*[${match}]" \
+      ${printFileArgs} \
+          -m 'ancestor-or-self::*' \
+          -v 'concat("[",1+count(preceding-sibling::*),"]/",name())' \
+          -b \
+      -v 'concat(": ",.)' \
+      -n \
+  "$@"
+)
+

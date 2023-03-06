@@ -5,6 +5,7 @@ testClass="$1"
 
 (
     set -x
-    find . -wholename '*surefire-reports/'"$testClass"'*' | grep -v 'surefire-reports/TEST' | xargs wc -l | awk '$1 > 4 && $2 != "total" { print $2 }' | xargs cat
+    find . -regex '.*\(failsafe\|surefire\)-reports/.*dump.*' | xargs tail -n +1
+    find . -regex '.*\(failsafe\|surefire\)-reports/.*\.txt' -type f -print0 | xargs -0 -L1 wc -l | grep -v '^4 ' | cut -d' ' -f2- | sed 's# #\\ #g' | xargs tail -vn +1
     #xargs grep -h -e $'^[^\t]' -e 'gtri'
 )

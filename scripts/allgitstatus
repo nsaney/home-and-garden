@@ -1,0 +1,7 @@
+#!/bin/bash
+
+(
+diff <(alldirs git status . | grep 'nothing to commit' -B 4 -A 1) <(alldirs git status .) | grep -e '>>>.*' -e 'modified' -e '^' --color=always
+[[ "0" -eq "$?" ]] && exit 1 || exit 0
+)
+

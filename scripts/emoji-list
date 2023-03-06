@@ -1,0 +1,16 @@
+#!/bin/bash
+
+(
+
+for i in $(seq 128 167 | xargs printf '%02x ')
+do
+    echo "BLOCK [f09f${i}xx]"
+    seq 128 191 \
+    | xargs -I {} printf '[f09f%s%02x] \\xf0\\x9f\\x%s\\x%02x    \0' "${i}" '{}' "${i}" '{}' \
+    | xargs -0 -L8 echo \
+    | xargs -d'\n' -I {} printf '{}\n'
+    echo
+done
+
+)
+

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+(
+count="$1"
+shift
+bashCommands="$@"
+
+for i in $(seq 1 "${count}"); do
+  echo ''
+  printf 'Run %3i: \n' "$i"
+  bash -c "${bashCommands}"
+  printf '\n[[[ %s ]]]\n' "$?"
+done
+
+)
+
+

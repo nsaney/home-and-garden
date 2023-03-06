@@ -1,0 +1,33 @@
+#!/bin/bash
+
+(
+
+# see https://medium.com/@Drew_Stokes/bash-argument-parsing-54f3b81a6a8f
+commands=""
+xargsArgs=""
+modeSingleLine=false
+while (( "$#" )); do
+    if [[ "$1" == "--sl" ]]; then
+        modeSingleLine=true
+        shift
+    elif [[ "$1" =~ ^-.* ]]; then
+        xargsArgs="$xargsArgs $1"
+        shift
+    else
+        commands="$@"
+        break
+    fi
+done
+
+bashCommands=""
+if $modeSingleLine; then
+    bashCommands="cd {} && echo -n \$(pwd)' ' && $commands"
+else
+    bashCommands="cd {} && echo '>>> '\$(pwd)' <<<' && ($commands) && echo"
+fi
+
+xargs $xargsArgs -I {} bash -c "$bashCommands"
+
+)
+
+

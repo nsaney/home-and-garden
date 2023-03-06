@@ -1,0 +1,6 @@
+#!/bin/bash
+
+(
+alldirs-sl 'git rev-parse --abbrev-ref HEAD | tr "\n" " "; git rev-parse --short HEAD' | sort -k2,2 -k1,1 | column -t
+)
+

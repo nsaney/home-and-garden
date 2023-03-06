@@ -1,0 +1,4 @@
+#!/bin/bash
+
+gdb -q -x ~/.gdbinit-pwndbg "$@"
+

@@ -1,0 +1,41 @@
+#!/bin/bash
+
+(
+Y="$(date +'%Y')"
+M="$(date +'%m')"
+M_CURR="$M"
+D_START="$(date +'%d')"
+D_END="$D_START"
+if [[ "$#" -eq 1 ]]; then M="$1"; D_START='01'; D_END="$(date -d "$(date "+%Y-$M-01") +1 month -1 day" '+%d')"; fi
+if [[ "$#" -eq 2 ]]; then M="$1"; D_START="$2"; D_END="$2"; fi
+if [[ "$#" -ge 3 ]]; then M="$1"; D_START="$2"; D_END="$3"; fi
+
+if [[ "${M#0}" -gt "${M_CURR#0}" ]]; then Y="$((Y - 1))"; fi
+cutoffTime='07:00'
+gitDirs="$(git rev-parse --show-toplevel 2>/dev/null || find -type d -name .git | xargs dirname | xargs readlink -f)"
+
+for D in $(seq "$D_START" "$D_END")
+do
+    beginDate="$(date -d "${Y}-$M-$D +0 day" "+%Y-%m-%d") ${cutoffTime}"
+    beginDay="$(date -d "${Y}-$M-$D +0 day" "+%a")"
+    endDate="$(date -d "${Y}-$M-$D +1 day" "+%Y-%m-%d") ${cutoffTime}"
+    echo
+    echo "===== ${beginDay} ${beginDate} to ${endDate} ====="
+    commitLines="$(
+    echo "${gitDirs}" | xdirs "
+        git logf --color=always --since='${beginDate}' --before='${endDate}' --author=aney \
+        | sed "'"s#^#$(pwd | xargs basename | xargs printf %-36s) * #g" \
+    ' \
+    | grep '^[^>]' \
+    | sort -k4,5
+    )"
+    echo "${commitLines}"
+    echo "${commitLines}" \
+    | sed 's/\(([^)]*)\)//g' \
+    | sed -E 's/(MEST-....)/\n__\1__\n/g' \
+    | grep '^__' \
+    | sort \
+    | uniq -c
+done
+)
+

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+(
+alldirs git-view-unmerged "$1" "$2"
+)
+

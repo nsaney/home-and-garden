@@ -1,0 +1,24 @@
+#!/bin/bash
+
+(
+
+projectDir="$1"
+projectName="$2"
+
+latexFile="${projectDir}/LaTeX/${projectName}.tex"
+latexDir="$(dirname "${latexFile}")"
+
+read -p "Create file at ${latexFile} ? ([Yy].* to accept) " -r REPLY
+if [[ "$REPLY" =~ ^[Yy].*$ ]]; then
+(
+  set -x
+  mkdir -p "${latexDir}"
+  touch "${latexFile}"
+)
+else
+  echo 'No changes made.'
+fi
+
+)
+
+

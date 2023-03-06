@@ -1,0 +1,8 @@
+#!/bin/bash
+#
+
+(
+script="$1"
+time python -m cProfile -s tottime <(echo "${script}")
+)
+

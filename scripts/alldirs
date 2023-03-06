@@ -1,0 +1,11 @@
+#!/bin/bash
+
+(
+if [[ $# -eq 0 ]]; then
+    echo "usage: $0 DIR_COMMANDS"
+    exit 1
+fi
+commands=$@
+find . -maxdepth 1 -type d -not -name '.' -print0 | sort -z | xdirs -0 "$commands"
+)
+

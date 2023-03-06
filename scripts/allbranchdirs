@@ -1,0 +1,15 @@
+#!/bin/bash
+
+(
+if [[ $# -le 1 ]]; then
+    echo "usage: $0 BRANCH_PATTERN DIR_COMMANDS"
+    exit 1
+fi
+branchPattern="$1"
+shift
+commands=$@
+DIRS="$(allgitbranches | grep -E '^[^ ]+ .*'"${branchPattern}" | cut -d" " -f1)"
+echo "Directories matched: $(echo "${DIRS}" | grep -cv '^$')"
+echo "${DIRS}" | xdirs -o "${commands}"
+)
+

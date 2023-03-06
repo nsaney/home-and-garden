@@ -1,0 +1,24 @@
+#!/bin/bash
+
+(
+UPSTREAM='development'
+FILTER='.*'
+[[ -z "$1" ]] || UPSTREAM="$1"
+[[ "${UPSTREAM}" != 'HEAD' ]] || UPSTREAM="$(git symbolic-ref --short -q HEAD)"
+[[ -z "$2" ]] || FILTER="$2"
+#echo "[upstream=${UPSTREAM}]"
+
+(git branch | grep " ${UPSTREAM}\$" >/dev/null) && {
+    for filteredBranch in $(git branch | grep -o "[^ ]*${FILTER}[^ ]*"); do (
+        echo "${filteredBranch}:"
+        IFS=$'\n'
+        for cherryLine in $(git cherry "${UPSTREAM}" "${filteredBranch}"); do
+            prefix="$(echo "${cherryLine}" | cut -d' ' -f1)"
+            commit="$(echo "${cherryLine}" | cut -d' ' -f2)"
+            echo -n "${prefix} " 
+            unbuffer git show -s --oneline "${commit}" | tr -d $'\r'
+        done
+    ) done
+} || echo -n ''
+)
+
