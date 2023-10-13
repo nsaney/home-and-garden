@@ -1,1 +1,1 @@
-ls "$@" | sort | tail -n 1
+find "$@" | sort | tail -n 1
