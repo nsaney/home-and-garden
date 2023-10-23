@@ -32,3 +32,5 @@ if [ $(which git) ] ; then
   git config --global alias.logg 'log --oneline --graph --all --decorate'
 fi
 
+# Firefox Web Extensions
+[ -s "$HOME/.mozilla/devapi-credentials-env.sh" ] && source "$HOME/.mozilla/devapi-credentials-env.sh"
