@@ -1,12 +1,12 @@
 {
   "manifest_version": 2,
   "name": "Jank Linker",
-  "version": "0.1",
+  "version": "0.2",
   "description": "Handles jank links.",
   "permissions": ["storage"],
   "browser_specific_settings": {
     "gecko": {
-      "id": "jank-linker@chairosoft"
+      "id": "jank-linker-web-extension@chairosoft"
     }
   },
   "icons": {
