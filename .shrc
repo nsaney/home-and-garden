@@ -8,17 +8,24 @@ fi
 
 # Herald
 echo "Setting up `echo $SHELL`"
-export PATH="$PATH":"$GARDEN"/scripts
-export PATH="$PATH":"$GARDEN"/scripts/.local
+
+append_to_path() {
+    local bin_dir="$1"
+    echo "$PATH" | grep -q "${bin_dir}" || export PATH="${PATH}:${bin_dir}"
+}
+
+# Scripts Dir
+append_to_path "$GARDEN"/scripts
+append_to_path "$GARDEN"/scripts/.local
 
 # Java
 export JAVA_HOME=`which javac | xargs readlink -f | xargs dirname | xargs dirname`
 
 # Android
 export ANDROID_HOME='/opt/android-sdk-tools'
-export PATH="$PATH":"$ANDROID_HOME"/tools
-export PATH="$PATH":"$ANDROID_HOME"/tools/bin
-export PATH="$PATH":"$ANDROID_HOME"/platform-tools
+append_to_path "$ANDROID_HOME"/tools
+append_to_path "$ANDROID_HOME"/tools/bin
+append_to_path "$ANDROID_HOME"/platform-tools
 
 # Git
 if [ $(which git) ] ; then
