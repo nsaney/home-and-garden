@@ -8,9 +8,10 @@ D_START="$(date +'%d')"
 D_END="$D_START"
 if [[ "$#" -eq 1 ]]; then M="$1"; D_START='01'; D_END="$(date -d "$(date "+%Y-$M-01") +1 month -1 day" '+%d')"; fi
 if [[ "$#" -eq 2 ]]; then M="$1"; D_START="$2"; D_END="$2"; fi
-if [[ "$#" -ge 3 ]]; then M="$1"; D_START="$2"; D_END="$3"; fi
+if [[ "$#" -eq 3 ]]; then M="$1"; D_START="$2"; D_END="$3"; fi
+if [[ "$#" -ge 4 ]]; then Y="$1"; M="$2"; D_START="$3"; D_END="$4"; fi
 
-if [[ "${M#0}" -gt "${M_CURR#0}" ]]; then Y="$((Y - 1))"; fi
+if [[ "$#" -lt 4 ]] && [[ "${M#0}" -gt "${M_CURR#0}" ]]; then Y="$((Y - 1))"; fi
 cutoffTime='07:00'
 gitDirs="$(git rev-parse --show-toplevel 2>/dev/null || find -type d -name .git | xargs dirname | xargs readlink -f)"
 

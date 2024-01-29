@@ -1,7 +1,8 @@
 #!/bin/bash
 
 (
-diff <(alldirs git status . | grep 'nothing to commit' -B 4 -A 1) <(alldirs git status .) | grep -e '>>>.*' -e 'modified' -e '^' --color=always
+allStatusText="$(alldirs git status . 2>&1 | grep -vi 'permission denied')"
+diff <(echo "${allStatusText}" | grep 'nothing to commit' -B 4 -A 1) <(echo "${allStatusText}") | grep -E '^|>>>.*|modified' --color=always
 [[ "0" -eq "$?" ]] && exit 1 || exit 0
 )
 

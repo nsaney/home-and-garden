@@ -3,13 +3,18 @@
 (
 UPSTREAM='development'
 FILTER='.*'
+GIT_BRANCH_OPTS=''
+if [[ "$1" = '-a' ]]; then
+    GIT_BRANCH_OPTS='-a'
+    shift
+fi
 [[ -z "$1" ]] || UPSTREAM="$1"
 [[ "${UPSTREAM}" != 'HEAD' ]] || UPSTREAM="$(git symbolic-ref --short -q HEAD)"
 [[ -z "$2" ]] || FILTER="$2"
 #echo "[upstream=${UPSTREAM}]"
 
 (git branch | grep " ${UPSTREAM}\$" >/dev/null) && {
-    for filteredBranch in $(git branch | grep -o "[^ ]*${FILTER}[^ ]*"); do (
+    for filteredBranch in $(git branch ${GIT_BRANCH_OPTS} | grep -o "[^ ]*${FILTER}[^ ]*"); do (
         echo "${filteredBranch}:"
         IFS=$'\n'
         for cherryLine in $(git cherry "${UPSTREAM}" "${filteredBranch}"); do
