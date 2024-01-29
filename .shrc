@@ -18,9 +18,6 @@ append_to_path() {
 append_to_path "$GARDEN"/scripts
 append_to_path "$GARDEN"/scripts/.local
 
-# Java
-export JAVA_HOME=`which javac | xargs readlink -f | xargs dirname | xargs dirname`
-
 # Android
 export ANDROID_HOME='/opt/android-sdk-tools'
 append_to_path "$ANDROID_HOME"/tools

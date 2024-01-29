@@ -2,6 +2,9 @@
 
 # Herald
 echo "Running `echo $SHELL`"
+
+# Java
+export JAVA_HOME=`which javac | xargs readlink -f | xargs dirname | xargs dirname`
 echo "JAVA_HOME=${JAVA_HOME}"
 
 # Prompt
