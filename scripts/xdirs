@@ -19,9 +19,10 @@ while (( "$#" )); do
     fi
 done
 
+commands="${commands:-:}"
 bashCommands=""
 if $modeSingleLine; then
-    bashCommands="cd {} && echo -n \$(pwd)' ' && $commands"
+    bashCommands="cd {} && echo -n \$(pwd)' ' && ($commands)"
 else
     bashCommands="cd {} && echo '>>> '\$(pwd)' <<<' && ($commands) && echo"
 fi

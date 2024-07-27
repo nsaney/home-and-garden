@@ -5,5 +5,5 @@
 if [[ "$1" = '--remove-target' ]]; then
   find * -name target -type d | xdirs "cd ..; sudo rm -rf target"
 fi
-find . ~/.m2 ~/.gradle -user root -print0 | sudo xargs -0 -I {} bash -c "echo -n '[{}] '; chown $(id -nu):$(id -ng) '{}'; echo"
+find . ~/.m2 ~/.gradle -user root -print0 | sudo xargs -0 -I {} bash -c "echo -n '[{}] '; chown '$(id -nu)':'$(id -ng)' '{}'; echo"
 )

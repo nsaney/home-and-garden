@@ -1,0 +1,18 @@
+#!/bin/bash
+
+(
+
+# from https://unix.stackexchange.com/questions/293393/find-a-specific-file-in-the-nearest-ancestor-of-the-current-working-directory
+function do_sup() {
+  if [ -e "$1" ]; then
+    printf '%s\n' "${PWD%/}/$1"
+  elif [ "$PWD" = / ]; then
+    false
+  else
+    cd .. && do_sup "$1"
+  fi
+}
+
+do_sup "$@"
+
+)

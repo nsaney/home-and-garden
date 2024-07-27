@@ -1,0 +1,24 @@
+#!/bin/bash
+#
+
+(
+set -e
+function getJavaHome() {
+  searchTerm="$1"
+  alts="$(alternatives --list | grep 'java')"
+  altsFiltered="$(echo "${alts}" | grep "${searchTerm}")"
+  javaHome="$(echo "${altsFiltered}" | head -n 1 | awk '{ print $3 }')"
+  if [[ -z "${javaHome}" ]]; then
+    exec 1>&2
+    echo "$0: Unable to match java alternative with '${searchTerm}':"
+    echo "${alts}"
+    exit 1
+  fi
+  echo "${javaHome}"
+}
+export JAVA_HOME="$(getJavaHome $1)"
+shift
+unset getJavaHome
+export PATH="${JAVA_HOME}/bin:${PATH}"
+exec "$@"
+)
