@@ -26,6 +26,10 @@ append_to_path "$ANDROID_HOME"/platform-tools
 
 # Git
 if [ $(which git) ] ; then
+  git config --global pretty.nms-details '%C(auto)%h  %ad  %an %d %s'
+  git config --global alias.loga 'log --pretty.nms-details --date=iso --abbrev=8 --graph --all'
+  git config --global alias.loge 'log --pretty.nms-details --date=iso --abbrev=8 --graph'
+  git config --global alias.logf 'log --pretty.nms-details --date=iso --abbrev=8 --all'
   git config --global alias.logg 'log --oneline --graph --all --decorate'
 fi
 
