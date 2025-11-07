@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+KNOWN_DEVICES="$(bluetoothctl devices)"
+DEVICE="$1"
+DEVICE_DETAIL="$(echo "${KNOWN_DEVICES}" | grep -P "${DEVICE}")"
+if [ -z "${DEVICE_DETAIL}" ]; then
+    >&2 echo "Unknown device: ${DEVICE}"
+    exit 1
+fi
+DEVICE_MAC_ADDRESS="$(echo "${DEVICE_DETAIL}" | grep -P -m1 -o '([0-9A-F]{2}:){5}[0-9A-F]{2}')"
+DEVICE_INFO="$(bluetoothctl info "${DEVICE_MAC_ADDRESS}")"
+DEVICE_CONNECTED_STATUS="$(echo "${DEVICE_INFO}" | grep -P -m1 -o '(?<=Connected: ).*')"
+case "${DEVICE_CONNECTED_STATUS}" in
+    no)  bluetoothctl    connect "${DEVICE_MAC_ADDRESS}" ;;
+    yes) bluetoothctl disconnect "${DEVICE_MAC_ADDRESS}" ;;
+    *)   echo "Device ${DEVICE_MAC_ADDRESS} '${DEVICE}': unrecognized connected status: ${DEVICE_CONNECTED_STATUS}"; exit 1 ;;
+esac

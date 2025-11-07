@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+env "$@" 2>&1 \
+| perl -M'Term::ANSIColor=colorstrip' -pe '$_ = colorstrip($_)' \
+| {
+  PROGRESS=0
+  ALL_LINES=''
+  while read -r LINE; do
+    (( PROGRESS += 10 ))
+    (( PROGRESS < 100 )) || PROGRESS=98
+    ALL_LINES="${ALL_LINES}${LINE}\n"
+    echo "${PROGRESS}"
+    echo "${ALL_LINES}" | perl -pe 's/^/# /g'
+  done
+  echo '100'
+} \
+| zenity --title "$*" --progress --width 480
