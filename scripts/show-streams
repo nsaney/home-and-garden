@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+exec  > >(    perl -pe 's/^/OUT:: /g')
+exec 2> >(>&2 perl -pe 's/^/ERR:: /g')
+exec "$@"
