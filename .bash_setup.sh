@@ -1,10 +1,10 @@
 # .bash_setup.sh -- gets called from .bashrc, which gets sourced by both login and non-login shells
 
 # Herald
-echo "Running `echo $SHELL`"
+echo "Running $(echo "${SHELL}")"
 
 # Java
-export JAVA_HOME=`which javac | xargs readlink -f | xargs dirname | xargs dirname`
+export JAVA_HOME="$(which javac | xargs -r readlink -f | xargs -r dirname | xargs -r dirname)"
 echo "JAVA_HOME=${JAVA_HOME}"
 
 # Prompt
@@ -48,5 +48,5 @@ export PS1="$PS1"'['"$(promptColor $COLOR_CYAN '\u')"
 export PS1="$PS1"'@'"$(promptColor $COLOR_MAGENTA '\h')"
 export PS1="$PS1"':'"$(promptColor $COLOR_YELLOW '\w')"']\n'
 export PS1="$PS1"'['"$(promptColor $COLOR_BLUE '\D{%F %T}')"']$ '
-export PS1="$PS1"`echo -e '\[\e]2;Terminal: \w\a\]'`
+export PS1="$PS1""$(echo -e '\[\e]2;Terminal: \w\a\]')"
 
