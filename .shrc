@@ -10,8 +10,9 @@ fi
 echo "Setting up `echo $SHELL`"
 
 append_to_path() {
-    local bin_dir="$1"
-    echo "$PATH" | grep -q "${bin_dir}" || export PATH="${PATH}:${bin_dir}"
+  local bin_dir="$1"
+  echo "append_to_path: ${bin_dir}"
+  echo "$PATH" | grep -q "${bin_dir}" || export PATH="${PATH}:${bin_dir}"
 }
 
 # Scripts Dir
@@ -20,9 +21,11 @@ append_to_path "$GARDEN"/scripts/.local
 
 # Android
 export ANDROID_HOME='/opt/android-sdk-tools'
-append_to_path "$ANDROID_HOME"/tools
-append_to_path "$ANDROID_HOME"/tools/bin
-append_to_path "$ANDROID_HOME"/platform-tools
+if [ -d "${ANDROID_HOME}" ]; then
+  append_to_path "$ANDROID_HOME"/tools
+  append_to_path "$ANDROID_HOME"/tools/bin
+  append_to_path "$ANDROID_HOME"/platform-tools
+fi
 
 # Git
 if [ $(which git) ] ; then
