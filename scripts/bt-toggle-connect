@@ -2,7 +2,11 @@
 
 KNOWN_DEVICES="$(bluetoothctl devices)"
 DEVICE="$1"
-DEVICE_DETAIL="$(echo "${KNOWN_DEVICES}" | grep -P "${DEVICE}")"
+if [ -z "$1" ]; then
+  >&2 echo "No device given."
+  exit 1
+fi
+DEVICE_DETAIL="$(echo "${KNOWN_DEVICES}" | grep -P "^Device [^ ]+ .*${DEVICE}")"
 if [ -z "${DEVICE_DETAIL}" ]; then
     >&2 echo "Unknown device: ${DEVICE}"
     exit 1
